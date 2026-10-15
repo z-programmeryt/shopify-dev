@@ -1,0 +1,393 @@
+@import 'tailwindcss';
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — single source for colour, type, radius, shadow and motion.
+   Default Tailwind colours are reset so only brand tokens can be used.
+   Contrast (measured): emerald-700 on white 5.3:1, subtle on paper 4.96:1, teal-700 on white 5.3:1,
+   amber-600 on paper 5.2:1, silver-500 on navy-900 7.1:1 — all text pairs meet WCAG AA.
+   ───────────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-ink: #0b1222;
+  --color-ink-soft: #2a3346;
+  --color-muted: #50607a;
+  --color-subtle: #5f6b82; /* ≥4.5:1 on paper, paper-2 and white */
+  --color-line: #e3e6ec;
+  --color-line-strong: #cdd3dd;
+  --color-paper: #f7f6f2;
+  --color-paper-2: #efede6;
+
+  --color-navy-950: #050b1a;
+  --color-navy-900: #0a1630;
+  --color-navy-850: #0d1c3b;
+  --color-navy-800: #102347;
+  --color-navy-700: #18315f;
+  --color-navy-600: #234382;
+
+  --color-emerald-700: #0b7a57;
+  --color-emerald-600: #0e8f66;
+  --color-emerald-500: #12a777;
+  --color-emerald-400: #3cc594;
+  --color-emerald-300: #7fddb9;
+  --color-emerald-50: #e8f6f0;
+
+  --color-teal-700: #13777b; /* teal text on light backgrounds (AA) */
+  --color-teal-500: #1e9fa4;
+  --color-teal-400: #45c2c2;
+  --color-cyan-300: #8fdff0;
+  --color-silver-300: #c9cfda;
+  --color-silver-500: #9aa4b5;
+  --color-graphite-800: #1c2230;
+  --color-amber-600: #965a00; /* AA on paper and the draft banner */
+  --color-red-700: #b42318;
+
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-card: 0 1px 2px rgb(10 22 48 / 0.04), 0 10px 30px -14px rgb(10 22 48 / 0.16);
+  --shadow-lift: 0 2px 4px rgb(10 22 48 / 0.06), 0 22px 44px -20px rgb(10 22 48 / 0.28);
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root {
+  /* Motion scale (brief §11): micro 100–250ms, UI 250–500ms, section 500–900ms */
+  --dur-micro: 160ms;
+  --dur-ui: 320ms;
+  --dur-section: 720ms;
+  --header-h: 64px;
+}
+
+/* ─── Type scale ─────────────────────────────────────────────────────────── */
+@utility text-display {
+  font-size: clamp(3rem, 8.2vw, 7.25rem);
+  line-height: 0.92;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+}
+@utility text-h1 {
+  font-size: clamp(2.4rem, 5.2vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+@utility text-h2 {
+  font-size: clamp(1.9rem, 3.6vw, 3.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+@utility text-h3 {
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+@utility text-lead {
+  font-size: clamp(1.1rem, 1.45vw, 1.3rem);
+  line-height: 1.55;
+  letter-spacing: -0.005em;
+}
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+@utility container-x {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2rem);
+}
+@utility section-y {
+  padding-block: clamp(4.5rem, 9vw, 8.5rem);
+}
+@utility grid-lines {
+  background-image:
+    linear-gradient(to right, rgb(201 207 218 / 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(201 207 218 / 0.07) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+@utility grid-lines-light {
+  background-image:
+    linear-gradient(to right, rgb(10 22 48 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(10 22 48 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--header-h) + 16px);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    min-height: 100dvh;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+  ::selection {
+    background: var(--color-emerald-300);
+    color: var(--color-navy-950);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-emerald-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* ─── Reveal on scroll (progressive: content is visible without JS) ─────── */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-section) var(--ease-out-expo),
+    transform var(--dur-section) var(--ease-out-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Engine fallback (SVG) flow animation ───────────────────────────────── */
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -64;
+  }
+}
+.engine-flow {
+  stroke-dasharray: 4 12;
+  animation: flow-dash 2.8s linear infinite;
+}
+@keyframes pulse-node {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+.engine-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-node 3.2s var(--ease-standard) infinite;
+}
+.engine-plate {
+  transition:
+    transform var(--dur-section) var(--ease-out-expo),
+    opacity var(--dur-ui) var(--ease-standard);
+}
+
+/* ─── Loading motif (non-blocking status line) ───────────────────────────── */
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+.status-dot {
+  animation: blink 1.2s steps(2, start) infinite;
+}
+
+/* ─── Article prose ──────────────────────────────────────────────────────── */
+.prose-rl {
+  color: var(--color-ink-soft);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+.prose-rl > * + * {
+  margin-top: 1.15em;
+}
+.prose-rl h2 {
+  margin-top: 2.2em;
+  color: var(--color-ink);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.prose-rl h3 {
+  margin-top: 1.8em;
+  color: var(--color-ink);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.prose-rl ul,
+.prose-rl ol {
+  padding-left: 1.25em;
+}
+.prose-rl ul {
+  list-style: disc;
+}
+.prose-rl ol {
+  list-style: decimal;
+}
+.prose-rl li + li {
+  margin-top: 0.45em;
+}
+.prose-rl li::marker {
+  color: var(--color-emerald-600);
+}
+.prose-rl pre {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  background: var(--color-navy-900);
+  color: #dfe6f1;
+  padding: 1.1rem 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+.prose-rl code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+.prose-rl table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+.prose-rl th,
+.prose-rl td {
+  border-bottom: 1px solid var(--color-line);
+  padding: 0.65rem 0.5rem;
+  text-align: left;
+  vertical-align: top;
+}
+.prose-rl th {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* ─── Semantic cursor (fine pointers only; mounted by JS) ────────────────── */
+.semantic-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 60;
+  pointer-events: none;
+  transform: translate3d(-100px, -100px, 0);
+  will-change: transform;
+}
+.semantic-cursor__ring {
+  display: grid;
+  place-items: center;
+  height: 14px;
+  width: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 999px;
+  border: 1.5px solid var(--color-emerald-500);
+  background: rgb(18 167 119 / 0.08);
+  transition:
+    width var(--dur-ui) var(--ease-out-expo),
+    height var(--dur-ui) var(--ease-out-expo),
+    margin var(--dur-ui) var(--ease-out-expo),
+    background-color var(--dur-ui) var(--ease-standard),
+    opacity var(--dur-micro) var(--ease-standard);
+}
+.semantic-cursor[data-label] .semantic-cursor__ring {
+  height: 64px;
+  width: 64px;
+  margin: -32px 0 0 -32px;
+  background: var(--color-navy-900);
+  border-color: var(--color-emerald-400);
+}
+.semantic-cursor__label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: var(--color-emerald-300);
+  opacity: 0;
+  transition: opacity var(--dur-micro) var(--ease-standard);
+}
+.semantic-cursor[data-label] .semantic-cursor__label {
+  opacity: 1;
+}
+.semantic-cursor[data-hidden] .semantic-cursor__ring {
+  opacity: 0;
+}
+
+/* ─── Print (résumé) ─────────────────────────────────────────────────────── */
+@media print {
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+  html,
+  body {
+    background: #fff !important;
+    font-size: 10.5pt;
+  }
+  .no-print,
+  header[data-site-header],
+  footer[data-site-footer],
+  [data-assistant],
+  .semantic-cursor {
+    display: none !important;
+  }
+  .print-plain {
+    box-shadow: none !important;
+    border: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
